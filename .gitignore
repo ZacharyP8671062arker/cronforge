@@ -1,0 +1,14 @@
+node_modules/
+
+Thumbs.db
+out/
+dist/
+*.log
+*.js.map
+build/
+.DS_Store
+.cache/
+*.tsbuildinfo
+.env.local
+coverage/
+.env
