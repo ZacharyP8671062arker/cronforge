@@ -61,3 +61,22 @@ export function clearTagStore(): void {
 export function listTaggedExpressions(): TaggedExpression[] {
   return Array.from(tagStore.values());
 }
+
+/**
+ * Renames a tag across all tagged expressions in the store.
+ * Returns the number of expressions that were updated.
+ */
+export function renameTag(oldTag: string, newTag: string): number {
+  let updatedCount = 0;
+  for (const entry of tagStore.values()) {
+    const index = entry.tags.indexOf(oldTag);
+    if (index !== -1) {
+      entry.tags[index] = newTag;
+      // Deduplicate in case newTag already existed on this entry
+      entry.tags = Array.from(new Set(entry.tags));
+      tagStore.set(entry.expression, entry);
+      updatedCount++;
+    }
+  }
+  return updatedCount;
+}
