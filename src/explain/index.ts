@@ -24,3 +24,10 @@ export function summarizeCron(expression: string): string {
 export function hasWarnings(expression: string): boolean {
   return explainCron(expression).warnings.length > 0;
 }
+
+/**
+ * Returns true if the given cron expression is valid.
+ */
+export function isValidCron(expression: string): boolean {
+  return explainCron(expression).isValid;
+}
