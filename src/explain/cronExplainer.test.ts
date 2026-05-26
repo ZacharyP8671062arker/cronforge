@@ -18,6 +18,18 @@ describe('explainCron', () => {
     expect(result.fields.minute).toBe('');
   });
 
+  it('returns invalid for an expression with too few fields', () => {
+    const result = explainCron('0 9 * *');
+    expect(result.isValid).toBe(false);
+    expect(result.humanReadable).toBe('Invalid expression');
+  });
+
+  it('returns invalid for an expression with too many fields', () => {
+    const result = explainCron('0 9 * * * * *');
+    expect(result.isValid).toBe(false);
+    expect(result.humanReadable).toBe('Invalid expression');
+  });
+
   it('warns when both dayOfMonth and dayOfWeek are set', () => {
     const result = explainCron('0 12 15 * 3');
     expect(result.warnings.some((w) => w.includes('day-of-month'))).toBe(true);
@@ -31,6 +43,11 @@ describe('explainCron', () => {
   it('provides a nextRunHint for valid expressions', () => {
     const result = explainCron('30 6 * * *');
     expect(result.nextRunHint).not.toBe('N/A');
+  });
+
+  it('returns N/A nextRunHint for invalid expressions', () => {
+    const result = explainCron('not-a-cron');
+    expect(result.nextRunHint).toBe('N/A');
   });
 });
 
