@@ -56,4 +56,13 @@ export function hasSnapshots(): boolean {
   return snapshotCount() > 0;
 }
 
+/**
+ * Returns the most recently saved snapshot, or undefined if none exist.
+ * Useful for quickly accessing the last captured state without needing an ID.
+ */
+export function getLatestSnapshot(): CronSnapshot | undefined {
+  const snapshots = listSnapshots();
+  return snapshots.length > 0 ? snapshots[0] : undefined;
+}
+
 export { clearSnapshots };
